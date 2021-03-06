@@ -11,5 +11,5 @@ type RegisterRequest struct {
 type Alerter interface {
 	SendLoginAlert(request LoginRequest) error
 	SendRegisterAlert(request RegisterRequest) error
-	SendActivationAlert()
+	SendActivationAlert(request RegisterRequest) error
 }
