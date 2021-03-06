@@ -71,7 +71,14 @@ func (a discordAlerter) sendMessage (message Message) error {
 }
 
 
-func (a discordAlerter) SendActivationAlert() {
-	panic("implement me")
+func (a discordAlerter) SendActivationAlert(request RegisterRequest) error {
+	message := Message{
+		Embed: []*MessageEmbed{{
+			Title:       "An account was activated",
+			Description: request.Email,
+		},
+		}}
+
+	return a.sendMessage(message)
 }
 
