@@ -74,7 +74,7 @@ func (a discordAlerter) sendMessage (message Message) error {
 func (a discordAlerter) SendActivationAlert(request RegisterRequest) error {
 	message := Message{
 		Embed: []*MessageEmbed{{
-			Title:       "An account was activated",
+			Title:       request.FullName + " just joined!",
 			Description: request.Email,
 		},
 		}}

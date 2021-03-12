@@ -5,6 +5,7 @@ type LoginRequest struct {
 }
 
 type RegisterRequest struct {
+	FullName string
 	Email string
 }
 
