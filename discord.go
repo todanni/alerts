@@ -10,13 +10,13 @@ import (
 )
 
 type discordAlerter struct {
-	client *http.Client
+	client  *http.Client
 	webhook string
 }
 
 func NewDiscordAlerter(client *http.Client, webhook string) Alerter {
 	return &discordAlerter{
-		client: client,
+		client:  client,
 		webhook: webhook,
 	}
 }
@@ -46,7 +46,7 @@ func (a discordAlerter) SendRegisterAlert(request RegisterRequest) error {
 	return a.sendMessage(message)
 }
 
-func (a discordAlerter) sendMessage (message Message) error {
+func (a discordAlerter) sendMessage(message Message) error {
 	postBody, err := json.Marshal(message)
 	if err != nil {
 		return err
@@ -70,7 +70,6 @@ func (a discordAlerter) sendMessage (message Message) error {
 	return nil
 }
 
-
 func (a discordAlerter) SendActivationAlert(request RegisterRequest) error {
 	message := Message{
 		Embed: []*MessageEmbed{{
@@ -78,7 +77,5 @@ func (a discordAlerter) SendActivationAlert(request RegisterRequest) error {
 			Description: request.Email,
 		},
 		}}
-
 	return a.sendMessage(message)
 }
-

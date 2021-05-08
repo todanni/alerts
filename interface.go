@@ -6,11 +6,13 @@ type LoginRequest struct {
 
 type RegisterRequest struct {
 	FullName string
-	Email string
+	Email    string
 }
 
 type Alerter interface {
 	SendLoginAlert(request LoginRequest) error
+
 	SendRegisterAlert(request RegisterRequest) error
+
 	SendActivationAlert(request RegisterRequest) error
 }
