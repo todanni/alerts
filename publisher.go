@@ -27,9 +27,10 @@ type alertsPublisher struct {
 
 func (a *alertsPublisher) SendLoginAlert(request LoginRequest) error {
 	al := Alert{
-		Type:    "login",
-		Source:  "account-service",
-		Message: "New login request received",
+		Type:     "login",
+		Source:   "account-service",
+		Message:  "New login request received",
+		Metadata: make(map[string]string),
 	}
 	al.Metadata["email"] = request.Email
 
@@ -42,9 +43,10 @@ func (a *alertsPublisher) SendLoginAlert(request LoginRequest) error {
 
 func (a *alertsPublisher) SendRegisterAlert(request RegisterRequest) error {
 	al := Alert{
-		Type:    "register",
-		Source:  "account-service",
-		Message: "New register request received",
+		Type:     "register",
+		Source:   "account-service",
+		Message:  "New register request received",
+		Metadata: make(map[string]string),
 	}
 	al.Metadata["email"] = request.Email
 	al.Metadata["full_name"] = request.FullName
@@ -58,9 +60,10 @@ func (a *alertsPublisher) SendRegisterAlert(request RegisterRequest) error {
 
 func (a *alertsPublisher) SendActivationAlert(request RegisterRequest) error {
 	al := Alert{
-		Type:    "verify",
-		Source:  "account-service",
-		Message: "An account has been verified",
+		Type:     "verify",
+		Source:   "account-service",
+		Message:  "An account has been verified",
+		Metadata: make(map[string]string),
 	}
 	al.Metadata["email"] = request.Email
 	b, err := json.Marshal(&al)
