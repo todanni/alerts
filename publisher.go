@@ -1,0 +1,83 @@
+package alerts
+
+import (
+	"encoding/json"
+
+	"github.com/streadway/amqp"
+)
+
+func NewAlertsPublisher(connString string) (Alerter, error) {
+	conn, err := amqp.Dial(connString)
+	if err != nil {
+		return nil, err
+	}
+	ch, err := conn.Channel()
+	if err != nil {
+		return nil, err
+	}
+
+	return &alertsPublisher{
+		channel: ch,
+	}, nil
+}
+
+type alertsPublisher struct {
+	channel *amqp.Channel
+}
+
+func (a *alertsPublisher) SendLoginAlert(request LoginRequest) error {
+	al := Alert{
+		Type:    "login",
+		Source:  "account-service",
+		Message: "New login request received",
+	}
+	al.Metadata["email"] = request.Email
+
+	b, err := json.Marshal(&al)
+	if err != nil {
+		return err
+	}
+	return a.publish(b)
+}
+
+func (a *alertsPublisher) SendRegisterAlert(request RegisterRequest) error {
+	al := Alert{
+		Type:    "register",
+		Source:  "account-service",
+		Message: "New register request received",
+	}
+	al.Metadata["email"] = request.Email
+	al.Metadata["full_name"] = request.FullName
+
+	b, err := json.Marshal(&al)
+	if err != nil {
+		return err
+	}
+	return a.publish(b)
+}
+
+func (a *alertsPublisher) SendActivationAlert(request RegisterRequest) error {
+	al := Alert{
+		Type:    "verify",
+		Source:  "account-service",
+		Message: "An account has been verified",
+	}
+	al.Metadata["email"] = request.Email
+	b, err := json.Marshal(&al)
+	if err != nil {
+		return err
+	}
+	return a.publish(b)
+}
+
+func (a *alertsPublisher) publish(alert []byte) error {
+	return a.channel.Publish(
+		"",
+		"alerts",
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "application/json",
+			Body:        alert,
+		})
+}
