@@ -16,10 +16,10 @@ type Alert struct {
 	Metadata map[string]string `json:"metadata"`
 }
 
-type Alerter interface {
-	SendLoginAlert(request LoginRequest) error
+type Publisher interface {
+	PublishLoginAlert(request LoginRequest) error
 
-	SendRegisterAlert(request RegisterRequest) error
+	PublishRegisterAlert(request RegisterRequest) error
 
-	SendActivationAlert(request RegisterRequest) error
+	PublishActivationAlert(request RegisterRequest) error
 }

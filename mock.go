@@ -6,17 +6,17 @@ type MockAlerter struct {
 	mock.Mock
 }
 
-func (a *MockAlerter) SendLoginAlert(request LoginRequest) error {
+func (a *MockAlerter) PublishLoginAlert(request LoginRequest) error {
 	args := a.Called(request)
 	return args.Error(0)
 }
 
-func (a *MockAlerter) SendRegisterAlert(request RegisterRequest) error {
+func (a *MockAlerter) PublishRegisterAlert(request RegisterRequest) error {
 	args := a.Called(request)
 	return args.Error(0)
 }
 
-func (a *MockAlerter) SendActivationAlert(request RegisterRequest) error {
+func (a *MockAlerter) PublishActivationAlert(request RegisterRequest) error {
 	args := a.Called(request)
 	return args.Error(0)
 }

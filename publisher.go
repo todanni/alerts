@@ -6,7 +6,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func NewAlertsPublisher(connString string) (Alerter, error) {
+func NewAlertsPublisher(connString string) (Publisher, error) {
 	conn, err := amqp.Dial(connString)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ type alertsPublisher struct {
 	channel *amqp.Channel
 }
 
-func (a *alertsPublisher) SendLoginAlert(request LoginRequest) error {
+func (a *alertsPublisher) PublishLoginAlert(request LoginRequest) error {
 	al := Alert{
 		Type:     "login",
 		Source:   "account-service",
@@ -41,7 +41,7 @@ func (a *alertsPublisher) SendLoginAlert(request LoginRequest) error {
 	return a.publish(b)
 }
 
-func (a *alertsPublisher) SendRegisterAlert(request RegisterRequest) error {
+func (a *alertsPublisher) PublishRegisterAlert(request RegisterRequest) error {
 	al := Alert{
 		Type:     "register",
 		Source:   "account-service",
@@ -58,7 +58,7 @@ func (a *alertsPublisher) SendRegisterAlert(request RegisterRequest) error {
 	return a.publish(b)
 }
 
-func (a *alertsPublisher) SendActivationAlert(request RegisterRequest) error {
+func (a *alertsPublisher) PublishActivationAlert(request RegisterRequest) error {
 	al := Alert{
 		Type:     "verify",
 		Source:   "account-service",
